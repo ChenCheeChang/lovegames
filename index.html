@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>嚴格驗證型附近交友軟體 - iPhone 17 正式規格版</title>
+  <style>
+    :root {
+      --bg-outer: #EDE9E2;
+      --bg-ivory: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F3EFEA;
+      --ink-primary: #1C1B19;
+      --ink-secondary: #6E6A63;
+      --ink-muted: #9C968C;
+      --gold-accent: #B89B72;
+      --gold-soft: #E5DBC9;
+      --hairline: #DED8CE;
+      --danger: #9E3B33;
+      --danger-bg: #FBF3F2;
+      --success: #2E5A44;
+      --success-bg: #F2F7F4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Hiragino Sans", sans-serif;
+      background-color: var(--bg-outer);
+      color: var(--ink-primary);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      user-select: none;
+      -webkit-user-select: none;
+      letter-spacing: 0.01em;
+    }
+
+    .serif-title {
+      font-family: "New York", "Times New Roman", "Songti TC", "PMingLiU", Georgia, serif;
+      letter-spacing: 0.03em;
+    }
+
+    .phone-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: var(--bg-ivory);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 500px) {
+      body {
+        padding: 20px;
+        align-items: center;
+      }
+      .phone-shell {
+        min-height: 852px;
+        max-height: 92vh;
+        border-radius: 44px;
+        border: 1px solid var(--gold-soft);
+        box-shadow: 0 28px 70px rgba(28, 27, 25, 0.14), 0 0 0 6px #1C1B19;
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      background: var(--bg-card);
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    button:active:not(:disabled) {
+      transform: scale(0.985);
+      opacity: 0.85;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.65;
+    }
+
+    .btn-primary {
+      background: var(--ink-primary);
+      color: var(--bg-ivory);
+      border: 1px solid var(--ink-primary);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-gold-purchased {
+      background: #F9F4EB;
+      color: #8C6D3F;
+      border: 1px solid var(--gold-accent);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      color: var(--ink-primary);
+      border: 1px solid var(--gold-accent);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .btn-danger-outline {
+      background: var(--bg-card);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      font-weight: 600;
+    }
+
+    .ios-statusbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px 10px;
+      border-bottom: 1px solid var(--hairline);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-ivory);
+      z-index: 20;
+    }
+
+    .dynamic-island {
+      width: 96px;
+      height: 22px;
+      background: #121110;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #D6C3A5;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .status-badge {
+      padding: 2px 9px;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 20px;
+      border: 1px solid var(--gold-accent);
+      background: var(--bg-card);
+      color: var(--ink-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .status-badge.off {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .verified-header {
+      background: var(--bg-ivory);
+      border-bottom: 1px solid var(--hairline);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 15;
+    }
+
+    .header-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--ink-secondary);
+      gap: 6px;
+    }
+
+    .tier-badge {
+      display: inline-block;
+      margin-left: 4px;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: 1px solid var(--hairline);
+      background: var(--bg-card);
+      color: var(--ink-secondary);
+    }
+
+    .tier-badge.vip {
+      border-color: var(--gold-accent);
+      background: #F9F4EB;
+      color: #8C6D3F;
+    }
+
+    .quota-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .quota-card {
+      background: var(--bg-card);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 7px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--ink-secondary);
+      box-shadow: 0 2px 8px rgba(28, 27, 25, 0.02);
+    }
+
+    .quota-num {
+      font-family: "New York", Georgia, serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+    }
+
+    .nav-tab-btn {
+      padding: 7px 2px;
+      font-size: 11px;
+      font-weight: 600;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--ink-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-tab-btn.active {
+      background: var(--bg-card);
+      color: var(--ink-primary);
+      box-shadow: 0 2px 6px rgba(28, 27, 25, 0.06);
+    }
+
+    .main-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+      background: var(--bg-ivory);
+    }
+
+    .view-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18px 18px 20px;
+    }
+
+    .section-title-box {
+      border-bottom: 1px solid var(--hairline);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--ink-secondary);
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+
+    .error-banner {
+      padding: 10px 12px;
+      border: 1px solid var(--danger);
+      border-radius: 8px;
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-size: 11.5px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .success-banner {
+      padding: 10px 12px;
+      border: 1px solid var(--success);
+      border-radius: 8px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-size: 11.5px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .camera-viewfinder {
+      border: 1px solid var(--gold-accent);
+      border-radius: 12px;
+      background: #181715;
+      color: var(--bg-ivory);
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 82px;
+      text-align: center;
+    }
+
+    .viewfinder-frame {
+      border: 1px solid rgba(184, 155, 114, 0.45);
+      border-radius: 8px;
+      width: 100%;
+      padding: 8px;
+    }
+
+    .viewfinder-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-accent);
+      margin-bottom: 3px;
+    }
+
+    .viewfinder-status {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #EAE6DF;
+    }
+
+    .capture-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .capture-item {
+      border: 1px solid var(--hairline);
+      border-radius: 9px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--bg-card);
+    }
+
+    .capture-item-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .capture-item-sub {
+      font-size: 10.5px;
+      color: var(--ink-muted);
+      margin-top: 1px;
+    }
+
+    .capture-item-sub.done {
+      color: #8C6D3F;
+      font-weight: 600;
+    }
+
+    .btn-small {
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--gold-accent);
+      background: var(--bg-card);
+      color: var(--ink-primary);
+      white-space: nowrap;
+    }
+
+    .btn-small.done {
+      background: var(--ink-primary);
+      border-color: var(--ink-primary);
+      color: var(--bg-ivory);
+    }
+
+    .ocr-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      padding: 11px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .ocr-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--ink-secondary);
+    }
+
+    .link-btn {
+      border: none;
+      background: transparent;
+      color: #8C6D3F;
+      text-decoration: underline;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 4px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .field-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .text-input {
+      width: 100%;
+      padding: 7px 9px;
+      font-size: 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      background: var(--bg-ivory);
+      color: var(--ink-primary);
+    }
+
+    .text-input:disabled {
+      background: var(--bg-subtle);
+      color: var(--ink-muted);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .ocr-preview-pill {
+      padding: 7px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--gold-soft);
+      border-radius: 6px;
+      background: #FBF9F5;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+    }
+
+    .cta-full {
+      width: 100%;
+      padding: 13px;
+      font-size: 13px;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      background: var(--bg-card);
+      padding: 7px 12px;
+    }
+
+    .filter-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .pref-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      width: 176px;
+    }
+
+    .pref-btn {
+      padding: 5px 0;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: var(--bg-subtle);
+      color: var(--ink-secondary);
+    }
+
+    .pref-btn.active {
+      background: var(--ink-primary);
+      color: var(--bg-ivory);
+      font-weight: 600;
+    }
+
+    .center-notice-box {
+      margin: auto 0;
+      padding: 24px 18px;
+      border: 1px solid var(--gold-soft);
+      border-radius: 14px;
+      background: var(--bg-card);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(28, 27, 25, 0.04);
+    }
+
+    .swipe-card-wrap {
+      margin: auto 0;
+      padding: 10px 0;
+    }
+
+    .swipe-card {
+      border: 1px solid var(--gold-soft);
+      border-radius: 16px;
+      background: var(--bg-card);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      touch-action: pan-y;
+      transition: transform 0.18s ease-out;
+      box-shadow: 0 12px 32px rgba(28, 27, 25, 0.06);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--hairline);
+      padding-bottom: 10px;
+    }
+
+    .card-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-name {
+      font-family: "New York", Georgia, serif;
+      font-size: 21px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .mutual-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--gold-accent);
+      background: #F9F4EB;
+      color: #8C6D3F;
+    }
+
+    .mutual-tag.single {
+      background: var(--bg-subtle);
+      color: var(--ink-muted);
+      border-color: var(--hairline);
+    }
+
+    .distance-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--ink-primary);
+      color: var(--bg-ivory);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .avatar-box {
+      height: 156px;
+      background: linear-gradient(180deg, #F7F4EE 0%, #EFEAE0 100%);
+      border: 1px solid var(--gold-soft);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      text-align: center;
+      position: relative;
+    }
+
+    .report-link-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink-secondary);
+    }
+
+    .avatar-circle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-accent);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "New York", Georgia, serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(184, 155, 114, 0.15);
+    }
+
+    .meta-box {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      background: var(--bg-ivory);
+      padding: 8px 10px;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      color: var(--ink-muted);
+    }
+
+    .meta-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      margin-top: 2px;
+    }
+
+    .swipe-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .swipe-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .swipe-btn {
+      padding: 12px 10px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+
+    .invite-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 10px;
+      background: #F9F4EB;
+      border: 1px solid var(--gold-accent);
+      color: #7A5C32;
+      letter-spacing: 0.03em;
+    }
+
+    .chat-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .chat-list-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+      gap: 12px;
+    }
+
+    .channel-card {
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(28, 27, 25, 0.03);
+    }
+
+    .chat-room-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .chat-room-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--hairline);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--bg-ivory);
+    }
+
+    .msg-row {
+      display: flex;
+      width: 100%;
+    }
+
+    .msg-row.me {
+      justify-content: flex-end;
+    }
+
+    .msg-row.partner {
+      justify-content: flex-start;
+    }
+
+    .msg-bubble {
+      max-width: 78%;
+      padding: 10px 13px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .msg-row.me .msg-bubble {
+      background: var(--ink-primary);
+      color: var(--bg-ivory);
+      border-bottom-right-radius: 3px;
+    }
+
+    .msg-row.partner .msg-bubble {
+      background: var(--bg-card);
+      color: var(--ink-primary);
+      border: 1px solid var(--hairline);
+      border-bottom-left-radius: 3px;
+    }
+
+    .msg-sender {
+      font-size: 10px;
+      opacity: 0.7;
+      margin-bottom: 3px;
+    }
+
+    .chat-input-bar {
+      padding: 12px 16px 18px;
+      border-top: 1px solid var(--hairline);
+      background: var(--bg-card);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .remaining-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .remaining-bar.exhausted {
+      color: var(--danger);
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 27, 25, 0.58);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 50;
+    }
+
+    .modal-card {
+      width: 100%;
+      background: var(--bg-ivory);
+      border: 1px solid var(--gold-accent);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+    }
+
+    .paywall-box {
+      border: 1px solid var(--gold-soft);
+      border-radius: 12px;
+      background: var(--bg-card);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .price-title {
+      font-family: "New York", Georgia, serif;
+      font-size: 25px;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .benefit-list {
+      list-style: none;
+      font-size: 12px;
+      color: var(--ink-secondary);
+      line-height: 1.65;
+      border-top: 1px solid var(--hairline);
+      padding-top: 10px;
+    }
+
+    .locked-field-row {
+      padding: 10px 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      background: var(--bg-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .lock-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #E5E0D8;
+      color: var(--ink-secondary);
+      font-weight: 600;
+    }
+
+    .log-item {
+      padding: 9px 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      background: var(--bg-card);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      color: var(--ink-secondary);
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-shell">
+
+    <!-- 1. iPhone 17 動態島與頂部狀態列 -->
+    <div class="ios-statusbar">
+      <span id="iosClock">09:41</span>
+      <div class="dynamic-island">VERIFIED</div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button id="gpsBadge" type="button" class="status-badge">GPS ON</button>
+      </div>
+    </div>
+
+    <!-- 2. 驗證通過後的頂部雅緻資訊與導覽列 -->
+    <div id="verifiedHeader" class="verified-header hidden">
+      <div class="header-top-row">
+        <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+          <strong id="headerDisplayName" style="color:var(--ink-primary);">林承翰</strong> · <strong id="headerUserGender" style="color:var(--ink-primary);">男</strong> · <strong id="headerUserAge" style="color:var(--ink-primary);">28</strong>歲
+          <span id="headerVipBadge" class="tier-badge">免費會員</span>
+        </div>
+        <!-- 購買後顯示「已購買尊榮會員」，除非配對機會用完才出現「增加更多配對機會」 -->
+        <button id="openPaywallTopBtn" type="button" class="btn-primary" style="padding:5px 11px;font-size:11px;border-radius:20px;white-space:nowrap;">
+          購買尊榮會員
+        </button>
+      </div>
+
+      <div class="quota-grid">
+        <div class="quota-card">
+          <span>剩餘配對機會</span>
+          <span id="headerSwipeQuota" class="quota-num">10</span>
+        </div>
+        <div class="quota-card">
+          <span>直接邀請權限</span>
+          <span id="headerInviteQuota" class="quota-num">未開通</span>
+        </div>
+      </div>
+
+      <div class="nav-tabs">
+        <button id="navTabSwipe" type="button" class="nav-tab-btn active">
+          附近配對
+        </button>
+        <button id="navTabChat" type="button" class="nav-tab-btn">
+          聊天 (<span id="navChatCount">0</span>)
+        </button>
+        <button id="navTabProfile" type="button" class="nav-tab-btn">
+          個人與審核
+        </button>
+        <button id="navTabLogs" type="button" class="nav-tab-btn">
+          紀錄 (<span id="navLogCount">0</span>)
+        </button>
+      </div>
+    </div>
+
+    <!-- 主內容區 -->
+    <main class="main-viewport">
+
+      <!-- ==================== 頁面 1：強制註冊驗證與人工審閱頁 (KYC View) ==================== -->
+      <section id="viewKYC" class="view-section">
+
+        <!-- 子狀態 1A：填寫註冊與驗證表單 -->
+        <div id="kycFormStep" style="display:flex;flex-direction:column;justify-content:space-between;flex:1;">
+          <div>
+            <div class="section-title-box">
+              <h1 class="section-title serif-title">實名驗證</h1>
+              <p class="section-subtitle" style="color:var(--danger);font-weight:700;">限制18歲以上會員使用</p>
+            </div>
+
+            <div id="kycErrorBox" class="error-banner hidden"></div>
+
+            <!-- 步驟 1：手機號碼與簡訊驗證碼 (必經) -->
+            <div class="ocr-panel">
+              <div class="ocr-panel-header">
+                <span>STEP 1 · 手機號碼強制驗證</span>
+                <span id="phoneVerifyBadge" style="color:var(--danger);">尚未驗證手機</span>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <input id="inputPhone" type="tel" maxlength="10" value="0912345678" placeholder="輸入手機號碼 (09xxxxxxxx)" class="text-input" style="flex:1;font-family:monospace;" />
+                <button id="btnSendOtp" type="button" class="btn-outline" style="padding:0 10px;font-size:11px;white-space:nowrap;">
+                  發送驗證碼
+                </button>
+              </div>
+              <div id="otpInputRow" class="hidden" style="display:flex;gap:6px;margin-top:4px;">
+                <input id="inputOtpCode" type="text" maxlength="6" placeholder="輸入 6 位驗證碼 (預設 888888)" class="text-input" style="flex:1;font-family:monospace;" />
+                <button id="btnVerifyOtp" type="button" class="btn-primary" style="padding:0 12px;font-size:11px;white-space:nowrap;">
+                  驗證號碼
+                </button>
+              </div>
+            </div>
+
+            <!-- 步驟 2：即時相機拍攝證件與自拍 -->
+            <div class="capture-list">
+              <div class="capture-item">
+                <div>
+                  <div class="capture-item-title">1. 身分證正面（含大頭照）</div>
+                  <div id="statusFrontID" class="capture-item-sub">狀態：尚未拍攝</div>
+                </div>
+                <button id="btnCaptureFront" type="button" class="btn-small">即時拍攝</button>
+              </div>
+
+              <div class="capture-item">
+                <div>
+                  <div class="capture-item-title">2. 身分證反面（含戶籍居住地）</div>
+                  <div id="statusBackID" class="capture-item-sub">狀態：尚未拍攝</div>
+                </div>
+                <button id="btnCaptureBack" type="button" class="btn-small">即時拍攝</button>
+              </div>
+
+              <div class="capture-item">
+                <div>
+                  <div class="capture-item-title">3. 本人即時自拍（禁用相簿）</div>
+                  <div id="statusSelfie" class="capture-item-sub">狀態：尚未拍攝</div>
+                </div>
+                <button id="btnCaptureSelfie" type="button" class="btn-small">即時自拍</button>
+              </div>
+            </div>
+
+            <!-- 步驟 3：證件資料、本名/外號設定與年齡門檻 (滿 18 歲) -->
+            <div class="ocr-panel">
+              <div class="ocr-panel-header">
+                <span>STEP 2 · 證件 OCR 與顯示名稱設定</span>
+                <button id="btnQuickFillKYC" type="button" class="link-btn">一鍵完成拍攝與簡訊驗證</button>
+              </div>
+
+              <div class="two-col">
+                <div class="field-group">
+                  <label for="inputRealName" class="field-label">身分證本名（核對後鎖定）</label>
+                  <input id="inputRealName" type="text" value="林承翰" class="text-input" />
+                </div>
+                <div class="field-group">
+                  <label for="inputNickname" class="field-label">外號 / 暱稱（可選填）</label>
+                  <input id="inputNickname" type="text" value="Julian" class="text-input" />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <span class="field-label">配對頁顯示名稱方式（通過後仍可切換本名或外號）</span>
+                <div class="two-col">
+                  <button id="btnModeRealName" type="button" class="btn-small done" style="padding:6px;">使用本名顯示</button>
+                  <button id="btnModeNickname" type="button" class="btn-small" style="padding:6px;">使用外號顯示</button>
+                </div>
+              </div>
+
+              <div class="two-col">
+                <div class="field-group">
+                  <label for="inputIdNumber" class="field-label">身分證字號（OCR 鎖定不可改）</label>
+                  <input id="inputIdNumber" type="text" maxlength="10" value="A123456789" readonly disabled class="text-input" style="text-transform:uppercase;font-family:monospace;cursor:not-allowed;" />
+                </div>
+                <div class="field-group">
+                  <label for="inputResidence" class="field-label">居住地（核對後鎖定不可改）</label>
+                  <input id="inputResidence" type="text" value="新北市新店區" class="text-input" />
+                </div>
+              </div>
+
+              <div class="two-col">
+                <div class="field-group">
+                  <label for="inputBirthDate" class="field-label">出生年月日（OCR 鎖定不可改）</label>
+                  <input id="inputBirthDate" type="date" value="1998-05-15" readonly disabled class="text-input" style="cursor:not-allowed;" />
+                </div>
+                <div class="field-group">
+                  <span class="field-label">自動計算性別與實際年齡</span>
+                  <div id="ocrPreviewBox" class="ocr-preview-pill">性別：男 / 28 歲</div>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <div style="display:flex;justify-content:space-between;font-size:10.5px;font-weight:600;color:var(--ink-secondary);">
+                  <label for="inputFaceSimilarity">身分證大頭照 vs 自拍相似度（門檻 80%）</label>
+                  <span id="faceScoreLabel" style="color:var(--ink-primary);">92%</span>
+                </div>
+                <input id="inputFaceSimilarity" type="range" min="45" max="99" value="92" style="width:100%;accent-color:#1C1B19;" />
+              </div>
+            </div>
+          </div>
+
+          <button id="btnSubmitKYC" type="button" class="btn-primary cta-full">
+            送出註冊申請（進入後台人工審閱）
+          </button>
+        </div>
+
+        <!-- 子狀態 1B：等待後台人工審閱畫面 -->
+        <div id="kycManualReviewStep" class="center-notice-box hidden">
+          <div class="serif-title" style="font-size:20px;font-weight:600;">註冊資料人工審閱中</div>
+          <p style="font-size:12px;color:var(--ink-secondary);line-height:1.55;">
+            你的手機驗證、身分證正反面與即時自拍已送交後台管理員進行人工審閱。<br>
+            <strong>注意：若經審閱判定不合格或身分有疑義，後台將取消申請，且該身分證與手機號碼終身不得再申請。</strong>
+          </p>
+          <div style="width:100%;border-top:1px solid var(--hairline);padding-top:12px;display:flex;flex-direction:column;gap:8px;">
+            <span style="font-size:10.5px;color:var(--ink-muted);font-weight:600;">後台管理員審閱操作（預覽切換）</span>
+            <button id="btnAdminApproveKYC" type="button" class="btn-primary" style="width:100%;padding:12px;font-size:12.5px;">
+              審閱通過（准予進入配對系統）
+            </button>
+            <button id="btnAdminRejectBanKYC" type="button" class="btn-danger-outline" style="width:100%;padding:11px;font-size:12px;">
+              審閱不合格 / 有疑義（取消申請並終身封鎖）
+            </button>
+          </div>
+        </div>
+
+        <!-- 子狀態 1C：終身禁止申請封鎖畫面 -->
+        <div id="kycPermanentBanStep" class="center-notice-box hidden" style="border-color:var(--danger);background:var(--danger-bg);">
+          <div class="serif-title" style="font-size:20px;font-weight:600;color:var(--danger);">申請已取消 · 終身禁止再申請</div>
+          <p id="banReasonText" style="font-size:12px;color:var(--danger);line-height:1.55;">
+            經後台人工審閱判定資料不合格或具身分疑義，系統已將你的身分證字號雜湊與手機號碼列入永久封鎖名單，終身不得再次申請註冊。
+          </p>
+        </div>
+
+      </section>
+
+      <!-- ==================== 頁面 2：GPS 附近配對頁 (Swipe View) ==================== -->
+      <section id="viewSwipe" class="view-section hidden">
+        <!-- 尋找對象性別設定 -->
+        <div class="filter-bar">
+          <span class="filter-label">尋找對象偏好</span>
+          <div class="pref-group">
+            <button id="prefBtnMale" type="button" class="pref-btn">男性</button>
+            <button id="prefBtnFemale" type="button" class="pref-btn">女性</button>
+            <button id="prefBtnAll" type="button" class="pref-btn active">皆可</button>
+          </div>
+        </div>
+
+        <!-- GPS 關閉時阻斷畫面 -->
+        <div id="gpsDisabledBox" class="center-notice-box hidden">
+          <div class="serif-title" style="font-size:18px;font-weight:600;">GPS 即時定位未開啟</div>
+          <p style="font-size:12px;color:var(--ink-secondary);line-height:1.5;">系統僅顯示當下同時開啟 App 並開啟 GPS 的附近已驗證會員。</p>
+          <button id="btnEnableGpsInline" type="button" class="btn-primary" style="padding:10px 18px;font-size:12px;">
+            立即開啟 GPS 即時定位
+          </button>
+        </div>
+
+        <!-- 候選人滑動卡片 -->
+        <div id="candidateCardContainer" class="swipe-card-wrap">
+          <div id="swipeCard" class="swipe-card">
+            <div class="card-top">
+              <div>
+                <div class="card-name-row">
+                  <h2 id="cardUserName" class="card-name">Claire</h2>
+                  <span id="cardNameModeTag" style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--bg-subtle);color:var(--ink-secondary);">外號顯示</span>
+                  <span id="cardMutualHint" class="mutual-tag">附近在線</span>
+                </div>
+                <p id="cardResidenceText" style="font-size:11px;color:var(--ink-muted);margin-top:4px;">居住地：台北市大安區 · 人工審閱通過</p>
+              </div>
+              <span id="cardDistance" class="distance-tag">180m</span>
+            </div>
+
+            <div class="avatar-box">
+              <button id="btnReportCandidate" type="button" class="report-link-btn">
+                檢舉會員
+              </button>
+              <div id="cardAvatarCode" class="avatar-circle">F26</div>
+              <div style="font-size:12px;font-weight:600;color:var(--ink-primary);">真人自拍、手機與人工審閱通過</div>
+              <div id="cardFaceSimilarityText" style="font-size:11px;color:var(--ink-secondary);margin-top:2px;">系統人臉比對相似度：94.2%</div>
+            </div>
+
+            <div class="two-col">
+              <div class="meta-box">
+                <div class="meta-label">性別（身分證第 2 碼鎖定）</div>
+                <div id="cardGenderText" class="meta-val">女性 (2)</div>
+              </div>
+              <div class="meta-box">
+                <div class="meta-label">實際年齡（滿 18 歲核驗）</div>
+                <div id="cardAgeText" class="meta-val">26 歲</div>
+              </div>
+            </div>
+
+            <div style="font-size:11px;color:var(--ink-muted);text-align:center;">
+              左右滑動卡片或點選下方按鈕（同對象僅限直接邀請 1 次）
+            </div>
+          </div>
+        </div>
+
+        <!-- 附近無候選人空狀態 -->
+        <div id="emptyCandidateBox" class="center-notice-box hidden">
+          <div class="serif-title" style="font-size:16px;font-weight:600;">附近暫無其他符合條件的在線會員</div>
+          <p style="font-size:12px;color:var(--ink-secondary);">系統已永久記憶你滑過、邀請過或已封鎖的對象，不會重複出現。</p>
+          <button id="btnAddMoreNearbyInline" type="button" class="btn-outline" style="padding:9px 16px;font-size:12px;">
+            重新整理附近在線名單
+          </button>
+        </div>
+
+        <!-- 底部滑動與直接邀請操作列 -->
+        <div id="swipeActionFooter" class="swipe-actions">
+          <div class="swipe-btn-row">
+            <button id="btnSwipeLeft" type="button" class="btn-outline swipe-btn">
+              ← 左滑 (不喜歡)
+            </button>
+            <button id="btnSwipeRight" type="button" class="btn-primary swipe-btn">
+              右滑 (喜歡) →
+            </button>
+          </div>
+          <button id="btnDirectInvite" type="button" class="invite-btn">
+            直接邀請聊天（<span id="btnInviteCountLabel">需購買尊榮會員</span>）
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== 頁面 3：聊天列表與對話室 (Chat View) ==================== -->
+      <section id="viewChat" class="chat-section hidden">
+        <!-- 子視圖 A：聊天通道列表 -->
+        <div id="chatListSubView" class="chat-list-wrap">
+          <div style="border-bottom:1px solid var(--hairline);padding-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+            <h2 class="serif-title" style="font-size:16px;font-weight:600;">專屬對話通道</h2>
+            <span style="font-size:10.5px;color:var(--ink-muted);">同一對象僅限邀請一次，未回應無法重邀</span>
+          </div>
+          <div id="chatChannelsContainer" style="display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto;"></div>
+        </div>
+
+        <!-- 子視圖 B：單一聊天對話室 -->
+        <div id="chatRoomSubView" class="chat-room-wrap hidden">
+          <div class="chat-room-header">
+            <button id="btnBackToChatList" type="button" class="btn-outline" style="padding:5px 9px;font-size:11px;">
+              ← 返回列表
+            </button>
+            <div style="text-align:center;">
+              <div id="roomPartnerTitle" class="serif-title" style="font-size:13px;font-weight:600;">Claire（26歲）</div>
+              <div id="roomChannelTypeBadge" style="font-size:10px;color:var(--ink-muted);">雙向右滑配對成功</div>
+            </div>
+            <div style="display:flex;gap:4px;">
+              <button id="btnReportInChat" type="button" class="btn-danger-outline" style="padding:5px 7px;font-size:10.5px;">
+                檢舉
+              </button>
+              <button id="btnSimulatePartnerReplyTop" type="button" class="btn-outline" style="padding:5px 8px;font-size:10.5px;">
+                對方回覆
+              </button>
+            </div>
+          </div>
+
+          <!-- 等待對方同意直接邀請 -->
+          <div id="roomPendingAcceptBox" class="center-notice-box hidden" style="margin:auto 18px;">
+            <div class="serif-title" style="font-size:16px;font-weight:600;">已發送直接邀請（每人限邀一次）</div>
+            <p style="font-size:12px;color:var(--ink-secondary);line-height:1.5;">同一對象僅限邀請一次；若對方未回應，系統將永久鎖定，無法再次邀請對方進入聊天室。</p>
+            <div class="two-col" style="width:100%;margin-top:4px;">
+              <button id="btnSimulatePartnerAccept" type="button" class="btn-primary" style="padding:10px 8px;font-size:11.5px;">
+                對方同意聊天
+              </button>
+              <button id="btnSimulateNoResponse" type="button" class="btn-outline" style="padding:10px 8px;font-size:11.5px;border-color:var(--danger);color:var(--danger);">
+                對方未回應
+              </button>
+            </div>
+          </div>
+
+          <!-- 訊息流 -->
+          <div id="roomMessagesContainer" class="chat-messages"></div>
+
+          <!-- 底部輸入框與強制小字「剩餘訊息次數：X」 -->
+          <div class="chat-input-bar">
+            <div id="roomInputActiveRow" class="chat-input-row">
+              <input id="inputChatMessage" type="text" placeholder="撰寫訊息..." class="text-input" style="flex:1;" />
+              <button id="btnSendChatMessage" type="button" class="btn-primary" style="padding:8px 18px;font-size:12px;">
+                發送
+              </button>
+            </div>
+
+            <button id="btnChannelExhaustedPay" type="button" class="btn-primary hidden" style="width:100%;padding:11px;font-size:12px;">
+              訊息次數已用完，通道關閉（點擊購買 NT$ 3,000 尊榮會員）
+            </button>
+
+            <div id="roomNoResponseLockedBar" class="hidden" style="width:100%;padding:10px;font-size:11.5px;font-weight:600;text-align:center;border-radius:8px;background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);">
+              對方未回應此邀請 · 依規則同一對象僅限邀請一次，無法再次邀請
+            </div>
+
+            <!-- 聊天框下方固定小字顯示狀態 -->
+            <div id="roomRemainingRow" class="remaining-bar">
+              <span id="roomRemainingCounterText">剩餘訊息次數：無限次</span>
+              <span id="roomRuleHintText" style="font-size:10px;color:var(--ink-muted);font-weight:400;">尊榮會員無限暢聊</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 頁面 4：個人資料鎖定與檢舉人工審閱頁 (Profile & Review View) ==================== -->
+      <section id="viewProfile" class="view-section hidden" style="justify-content:flex-start;gap:14px;">
+        <div class="section-title-box" style="margin-bottom:0;">
+          <h2 class="serif-title" style="font-size:17px;font-weight:600;">個人實名資料與管理員申請</h2>
+          <p class="section-subtitle">你可以自由切換顯示「本名」或「外號」；但身分證字號、性別與居住地皆鎖定不可更改，除非向管理者另外提出變更申請。</p>
+        </div>
+
+        <div id="profileNoticeBanner" class="success-banner hidden"></div>
+
+        <!-- 本名 / 外號自由切換 -->
+        <div class="ocr-panel" style="margin-bottom:0;">
+          <div class="ocr-panel-header">
+            <span>顯示名稱設定（可隨時切換本名或外號）</span>
+          </div>
+          <div class="two-col">
+            <button id="btnProfileUseRealName" type="button" class="btn-small done" style="padding:8px;">
+              顯示本名：<span id="lblProfileRealName">林承翰</span>
+            </button>
+            <button id="btnProfileUseNickname" type="button" class="btn-small" style="padding:8px;">
+              顯示外號：<span id="lblProfileNickname">Julian</span>
+            </button>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:4px;">
+            <input id="inputUpdateNickname" type="text" placeholder="修改外號..." class="text-input" style="flex:1;" />
+            <button id="btnSaveNickname" type="button" class="btn-outline" style="padding:0 12px;font-size:11px;">
+              更新外號
+            </button>
+          </div>
+        </div>
+
+        <!-- 鎖定不可更改欄位（身分證字號、性別、居住地、已驗證手機） -->
+        <div class="ocr-panel" style="margin-bottom:0;">
+          <div class="ocr-panel-header">
+            <span>系統鎖定實名欄位（不可自行修改）</span>
+            <button id="btnOpenAdminChangeModal" type="button" class="link-btn">向管理者申請改名或改住址</button>
+          </div>
+
+          <div class="locked-field-row">
+            <span>身分證本名：<strong id="lockedRealName">林承翰</strong></span>
+            <span class="lock-tag">需向管理者申請改名</span>
+          </div>
+          <div class="locked-field-row">
+            <span>身分證字號：<strong id="lockedIdNumber" style="font-family:monospace;">A123456789</strong></span>
+            <span class="lock-tag">永久鎖定不可更改</span>
+          </div>
+          <div class="locked-field-row">
+            <span>出生年月日：<strong id="lockedBirthDate" style="font-family:monospace;">1998-05-15 (28歲)</strong></span>
+            <span class="lock-tag">永久鎖定不可更改</span>
+          </div>
+          <div class="locked-field-row">
+            <span>法定性別：<strong id="lockedGender">男性 (第2碼=1)</strong></span>
+            <span class="lock-tag">永久鎖定不可更改</span>
+          </div>
+          <div class="locked-field-row">
+            <span>戶籍居住地：<strong id="lockedResidence">新北市新店區</strong></span>
+            <span class="lock-tag">需向管理者申請改住址</span>
+          </div>
+          <div class="locked-field-row">
+            <span>已驗證手機：<strong id="lockedPhone" style="font-family:monospace;">0912-345-678</strong></span>
+            <span class="lock-tag">簡訊驗證通過</span>
+          </div>
+        </div>
+
+        <!-- 檢舉案件人工審閱清單 -->
+        <div class="ocr-panel" style="margin-bottom:0;">
+          <div class="ocr-panel-header">
+            <span>檢舉案件後台人工審閱紀錄</span>
+          </div>
+          <div id="reportCasesContainer" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </section>
+
+      <!-- ==================== 頁面 5：可追溯系統紀錄 (Audit Logs View) ==================== -->
+      <section id="viewLogs" class="view-section hidden" style="justify-content:flex-start;">
+        <div style="border-bottom:1px solid var(--hairline);padding-bottom:10px;margin-bottom:12px;">
+          <h2 class="serif-title" style="font-size:16px;font-weight:600;">系統可追溯稽核紀錄</h2>
+        </div>
+        <div id="auditLogsContainer" style="flex:1;overflow-y:auto;"></div>
+      </section>
+
+      <!-- ==================== 彈窗 A：配對成功提示 (Match Modal) ==================== -->
+      <div id="modalMatchSuccess" class="modal-backdrop hidden">
+        <div class="modal-card" style="text-align:center;">
+          <div class="serif-title" style="font-size:22px;font-weight:600;">配對成功</div>
+          <p id="modalMatchDesc" style="font-size:12.5px;color:var(--ink-secondary);line-height:1.5;">你們互相喜歡了彼此，專屬對話權限已開啟。</p>
+          <div class="two-col" style="padding-top:6px;">
+            <button id="btnMatchKeepSwiping" type="button" class="btn-outline" style="padding:11px;font-size:12px;">
+              繼續滑動
+            </button>
+            <button id="btnMatchOpenChat" type="button" class="btn-primary" style="padding:11px;font-size:12px;">
+              進入聊天室
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 彈窗 B：唯一購買方案頁 (Paywall Modal) ==================== -->
+      <div id="modalPaywall" class="modal-backdrop hidden">
+        <div class="modal-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--hairline);padding-bottom:10px;">
+            <span id="paywallReasonTitle" class="serif-title" style="font-size:15px;font-weight:600;">購買尊榮會員方案</span>
+            <button id="btnClosePaywall" type="button" class="btn-outline" style="padding:3px 10px;font-size:11px;">
+              關閉
+            </button>
+          </div>
+
+          <div class="paywall-box">
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:0.08em;color:#8C6D3F;text-transform:uppercase;">EXCLUSIVE MEMBERSHIP · 唯一方案</div>
+            <div class="price-title">NT$ 3,000</div>
+            <ul class="benefit-list">
+              <li>· <strong style="color:var(--ink-primary);">全站無限制聊天</strong>：購買一次即享與所有會員無限次聊天</li>
+              <li>· <strong style="color:var(--ink-primary);">直接邀請未配對會員</strong>：可向未配對會員直接發送聊天邀請</li>
+              <li>· <strong style="color:var(--ink-primary);">防打擾限制</strong>：同一對象僅限邀請一次；若對方未回應，即無法再次邀請對方</li>
+              <li>· <strong style="color:var(--ink-primary);">增加配對機會</strong>：每次購買增加 <strong style="color:var(--ink-primary);">30 次</strong> 右滑配對機會</li>
+            </ul>
+          </div>
+
+          <button id="btnConfirmPurchase" type="button" class="btn-primary" style="width:100%;padding:14px;font-size:13.5px;">
+            支付 NT$ 3,000 立即購買
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== 彈窗 C：檢舉會員（送交人工審閱） ==================== -->
+      <div id="modalReportUser" class="modal-backdrop hidden">
+        <div class="modal-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--hairline);padding-bottom:10px;">
+            <span class="serif-title" style="font-size:15px;font-weight:600;">檢舉會員（須經後台人工審閱）</span>
+            <button id="btnCloseReportModal" type="button" class="btn-outline" style="padding:3px 10px;font-size:11px;">
+              關閉
+            </button>
+          </div>
+
+          <div style="font-size:12px;color:var(--ink-secondary);line-height:1.5;">
+            檢舉對象：<strong id="reportTargetName" style="color:var(--ink-primary);">Claire</strong><br>
+            請填寫具體檢舉理由，提交後將由後台管理員進行人工審閱，一經查證屬實將永久取消該會員資格且終身不得再申請。
+          </div>
+
+          <div class="field-group">
+            <label for="selectReportCategory" class="field-label">檢舉類別</label>
+            <select id="selectReportCategory" class="text-input">
+              <option value="照片或身分與本人不符">照片或身分與本人不符</option>
+              <option value="商業推銷、詐騙或金錢往來要求">商業推銷、詐騙或金錢往來要求</option>
+              <option value="騷擾、不當言論或違規行為">騷擾、不當言論或違規行為</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="inputReportReason" class="field-label">檢舉詳細理由說明（必填，供人工審閱核對）</label>
+            <textarea id="inputReportReason" rows="3" placeholder="請詳述檢舉事由與對話/照片疑義..." class="text-input" style="resize:none;"></textarea>
+          </div>
+
+          <button id="btnSubmitReport" type="button" class="btn-primary" style="width:100%;padding:13px;font-size:13px;">
+            提交檢舉並送交人工審閱
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== 彈窗 D：向管理者申請改名或改住址 ==================== -->
+      <div id="modalAdminChange" class="modal-backdrop hidden">
+        <div class="modal-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--hairline);padding-bottom:10px;">
+            <span class="serif-title" style="font-size:15px;font-weight:600;">向管理者申請變更本名或居住地</span>
+            <button id="btnCloseAdminChangeModal" type="button" class="btn-outline" style="padding:3px 10px;font-size:11px;">
+              關閉
+            </button>
+          </div>
+
+          <p style="font-size:11.5px;color:var(--ink-secondary);line-height:1.5;">
+            身分證字號與性別終身不可更改。若因法定改名或戶籍遷移需變更「本名」或「居住地」，請填寫新資料並檢附證明送交管理者人工審核。
+          </p>
+
+          <div class="field-group">
+            <label for="inputRequestNewName" class="field-label">申請變更後之本名</label>
+            <input id="inputRequestNewName" type="text" class="text-input" />
+          </div>
+
+          <div class="field-group">
+            <label for="inputRequestNewResidence" class="field-label">申請變更後之居住地</label>
+            <input id="inputRequestNewResidence" type="text" class="text-input" />
+          </div>
+
+          <div class="field-group">
+            <label for="inputRequestChangeProof" class="field-label">變更事由與證明文件說明</label>
+            <input id="inputRequestChangeProof" type="text" value="已拍攝最新戶籍謄本與新身分證反面供核對" class="text-input" />
+          </div>
+
+          <button id="btnSubmitAdminChange" type="button" class="btn-primary" style="width:100%;padding:13px;font-size:13px;">
+            送交管理者人工審核並更新
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    const state = {
+      // 驗證與人工審閱狀態：'form' | 'pending_review' | 'approved' | 'banned'
+      kycStage: 'form',
+      phoneVerified: false,
+      phoneNumber: '0912345678',
+      capturedFront: false,
+      capturedBack: false,
+      capturedSelfie: false,
+
+      realName: '林承翰',
+      nickname: 'Julian',
+      useNickname: false, // false=使用本名顯示, true=使用外號顯示
+      idNumber: 'A123456789',
+      residence: '新北市新店區',
+      userGender: 1,
+      userAge: 28,
+
+      targetPref: 3,
+      gpsEnabled: true,
+
+      rightSwipeQuota: 10,
+      hasPurchased: false,
+
+      swipedIds: new Set(),
+      invitedTargetIds: new Set(),
+      bannedTargetIds: new Set(),
+      activeTab: 'swipe', // 'swipe' | 'chat' | 'profile' | 'logs'
+      activeChannelId: null,
+      reportingTarget: null,
+
+      candidates: [
+        { id: 'u101', name: 'Claire', nameMode: '外號顯示', residence: '台北市大安區', gender: 2, age: 26, distance: 180, faceScore: 94.2, likedMe: true },
+        { id: 'u102', name: '陳宥臻', nameMode: '本名顯示', residence: '新北市新店區', gender: 2, age: 24, distance: 310, faceScore: 91.5, likedMe: false },
+        { id: 'u103', name: '張哲瑋', nameMode: '本名顯示', residence: '台北市信義區', gender: 1, age: 29, distance: 450, faceScore: 88.9, likedMe: true },
+        { id: 'u104', name: 'Vivian', nameMode: '外號顯示', residence: '台北市中山區', gender: 2, age: 27, distance: 620, faceScore: 95.8, likedMe: true },
+        { id: 'u105', name: 'Arthur', nameMode: '外號顯示', residence: '新北市板橋區', gender: 1, age: 32, distance: 790, faceScore: 86.4, likedMe: false },
+        { id: 'u106', name: '林詩涵', nameMode: '本名顯示', residence: '台北市松山區', gender: 2, age: 25, distance: 950, faceScore: 90.1, likedMe: false }
+      ],
+      nextCandidateSeq: 107,
+      channels: [],
+      reports: [],
+      logs: []
+    };
+
+    function addLog(actionText) {
+      const now = new Date();
+      const timeStr = now.toTimeString().slice(0, 8);
+      state.logs.unshift({ time: timeStr, text: actionText });
+      renderHeaderAndTabs();
+      renderLogsView();
+    }
+
+    function parseOcrPreview() {
+      const idInput = document.getElementById('inputIdNumber').value.trim().toUpperCase();
+      const birthInput = document.getElementById('inputBirthDate').value;
+      const secondChar = idInput.length >= 2 ? idInput.charAt(1) : '';
+      let genderLabel = '格式錯誤';
+      if (secondChar === '1') genderLabel = '男 (1)';
+      if (secondChar === '2') genderLabel = '女 (2)';
+
+      let calcAge = 28;
+      if (birthInput) {
+        const parts = birthInput.split('-');
+        if (parts.length === 3) {
+          const bYear = parseInt(parts[0], 10);
+          const bMonth = parseInt(parts[1], 10);
+          const bDay = parseInt(parts[2], 10);
+          calcAge = 2026 - bYear;
+          if (11 < bMonth || (11 === bMonth && 9 < bDay)) {
+            calcAge--;
+          }
+        }
+      }
+      const previewEl = document.getElementById('ocrPreviewBox');
+      if (calcAge < 18) {
+        previewEl.textContent = '未滿 18 歲 (' + calcAge + '歲 · 禁止註冊)';
+        previewEl.style.color = 'var(--danger)';
+      } else {
+        previewEl.textContent = '性別：' + genderLabel + ' / ' + calcAge + ' 歲';
+        previewEl.style.color = 'var(--ink-primary)';
+      }
+      return { idInput: idInput, secondChar: secondChar, calcAge: calcAge };
+    }
+
+    function getFilteredCandidates() {
+      if (!state.gpsEnabled) return [];
+      return state.candidates.filter(function(c) {
+        if (state.swipedIds.has(c.id) || state.bannedTargetIds.has(c.id)) return false;
+        if (state.targetPref === 1 && c.gender !== 1) return false;
+        if (state.targetPref === 2 && c.gender !== 2) return false;
+        return true;
+      });
+    }
+
+    function getCurrentDisplayName() {
+      if (state.useNickname && state.nickname.trim()) {
+        return state.nickname.trim();
+      }
+      return state.realName;
+    }
+
+    function renderAll() {
+      const viewKYC = document.getElementById('viewKYC');
+      const verifiedHeader = document.getElementById('verifiedHeader');
+      const viewSwipe = document.getElementById('viewSwipe');
+      const viewChat = document.getElementById('viewChat');
+      const viewProfile = document.getElementById('viewProfile');
+      const viewLogs = document.getElementById('viewLogs');
+
+      const gpsBadge = document.getElementById('gpsBadge');
+      gpsBadge.textContent = state.gpsEnabled ? 'GPS ON' : 'GPS OFF';
+      gpsBadge.className = state.gpsEnabled ? 'status-badge' : 'status-badge off';
+
+      if (state.kycStage !== 'approved') {
+        viewKYC.classList.remove('hidden');
+        verifiedHeader.classList.add('hidden');
+        viewSwipe.classList.add('hidden');
+        viewChat.classList.add('hidden');
+        viewProfile.classList.add('hidden');
+        viewLogs.classList.add('hidden');
+        renderKYCView();
+        return;
+      }
+
+      viewKYC.classList.add('hidden');
+      verifiedHeader.classList.remove('hidden');
+      renderHeaderAndTabs();
+
+      viewSwipe.classList.toggle('hidden', state.activeTab !== 'swipe');
+      viewChat.classList.toggle('hidden', state.activeTab !== 'chat');
+      viewProfile.classList.toggle('hidden', state.activeTab !== 'profile');
+      viewLogs.classList.toggle('hidden', state.activeTab !== 'logs');
+
+      if (state.activeTab === 'swipe') renderSwipeView();
+      if (state.activeTab === 'chat') renderChatView();
+      if (state.activeTab === 'profile') renderProfileView();
+      if (state.activeTab === 'logs') renderLogsView();
+    }
+
+    function renderKYCView() {
+      const formStep = document.getElementById('kycFormStep');
+      const reviewStep = document.getElementById('kycManualReviewStep');
+      const banStep = document.getElementById('kycPermanentBanStep');
+
+      formStep.classList.toggle('hidden', state.kycStage !== 'form');
+      reviewStep.classList.toggle('hidden', state.kycStage !== 'pending_review');
+      banStep.classList.toggle('hidden', state.kycStage !== 'banned');
+
+      if (state.kycStage !== 'form') return;
+
+      const phoneBadge = document.getElementById('phoneVerifyBadge');
+      if (state.phoneVerified) {
+        phoneBadge.textContent = '手機驗證碼已通過';
+        phoneBadge.style.color = 'var(--success)';
+      } else {
+        phoneBadge.textContent = '尚未驗證手機（必經）';
+        phoneBadge.style.color = 'var(--danger)';
+      }
+
+      function setCaptureItem(elId, btnId, done, labelDone, labelTodo) {
+        const el = document.getElementById(elId);
+        const btn = document.getElementById(btnId);
+        el.textContent = done ? '狀態：已完成即時拍攝' : '狀態：尚未拍攝';
+        el.className = done ? 'capture-item-sub done' : 'capture-item-sub';
+        btn.textContent = done ? labelDone : labelTodo;
+        btn.className = done ? 'btn-small done' : 'btn-small';
+      }
+      setCaptureItem('statusFrontID', 'btnCaptureFront', state.capturedFront, '已拍攝 (重拍)', '即時拍攝');
+      setCaptureItem('statusBackID', 'btnCaptureBack', state.capturedBack, '已拍攝 (重拍)', '即時拍攝');
+      setCaptureItem('statusSelfie', 'btnCaptureSelfie', state.capturedSelfie, '已自拍 (重拍)', '即時自拍');
+
+      document.getElementById('btnModeRealName').className = !state.useNickname ? 'btn-small done' : 'btn-small';
+      document.getElementById('btnModeNickname').className = state.useNickname ? 'btn-small done' : 'btn-small';
+
+      parseOcrPreview();
+    }
+
+    function renderHeaderAndTabs() {
+      document.getElementById('headerDisplayName').textContent = getCurrentDisplayName();
+      document.getElementById('headerUserGender').textContent = state.userGender === 1 ? '男' : '女';
+      document.getElementById('headerUserAge').textContent = state.userAge;
+
+      const vipBadge = document.getElementById('headerVipBadge');
+      vipBadge.textContent = state.hasPurchased ? '尊榮會員' : '免費會員';
+      vipBadge.className = state.hasPurchased ? 'tier-badge vip' : 'tier-badge';
+
+      const topPayBtn = document.getElementById('openPaywallTopBtn');
+      if (!state.hasPurchased) {
+        topPayBtn.textContent = '購買尊榮會員';
+        topPayBtn.className = 'btn-primary';
+        topPayBtn.disabled = false;
+      } else if (state.rightSwipeQuota > 0) {
+        topPayBtn.textContent = '已購買尊榮會員';
+        topPayBtn.className = 'btn-gold-purchased';
+        topPayBtn.disabled = true;
+      } else {
+        topPayBtn.textContent = '增加更多配對機會';
+        topPayBtn.className = 'btn-primary';
+        topPayBtn.disabled = false;
+      }
+
+      document.getElementById('headerSwipeQuota').textContent = state.rightSwipeQuota;
+      document.getElementById('headerInviteQuota').textContent = state.hasPurchased ? '已開通 (每人限1次)' : '未開通';
+      document.getElementById('navChatCount').textContent = state.channels.length;
+      document.getElementById('navLogCount').textContent = state.logs.length;
+
+      document.getElementById('navTabSwipe').className = state.activeTab === 'swipe' ? 'nav-tab-btn active' : 'nav-tab-btn';
+      document.getElementById('navTabChat').className = state.activeTab === 'chat' ? 'nav-tab-btn active' : 'nav-tab-btn';
+      document.getElementById('navTabProfile').className = state.activeTab === 'profile' ? 'nav-tab-btn active' : 'nav-tab-btn';
+      document.getElementById('navTabLogs').className = state.activeTab === 'logs' ? 'nav-tab-btn active' : 'nav-tab-btn';
+    }
+
+    function renderSwipeView() {
+      document.getElementById('prefBtnMale').className = state.targetPref === 1 ? 'pref-btn active' : 'pref-btn';
+      document.getElementById('prefBtnFemale').className = state.targetPref === 2 ? 'pref-btn active' : 'pref-btn';
+      document.getElementById('prefBtnAll').className = state.targetPref === 3 ? 'pref-btn active' : 'pref-btn';
+
+      const gpsBox = document.getElementById('gpsDisabledBox');
+      const cardContainer = document.getElementById('candidateCardContainer');
+      const emptyBox = document.getElementById('emptyCandidateBox');
+      const actionFooter = document.getElementById('swipeActionFooter');
+
+      if (!state.gpsEnabled) {
+        gpsBox.classList.remove('hidden');
+        cardContainer.classList.add('hidden');
+        emptyBox.classList.add('hidden');
+        actionFooter.classList.add('hidden');
+        return;
+      }
+
+      gpsBox.classList.add('hidden');
+      const list = getFilteredCandidates();
+      if (list.length === 0) {
+        cardContainer.classList.add('hidden');
+        emptyBox.classList.remove('hidden');
+        actionFooter.classList.add('hidden');
+        return;
+      }
+
+      cardContainer.classList.remove('hidden');
+      emptyBox.classList.add('hidden');
+      actionFooter.classList.remove('hidden');
+
+      const current = list[0];
+      document.getElementById('cardUserName').textContent = current.name;
+      document.getElementById('cardNameModeTag').textContent = current.nameMode || '本名顯示';
+      document.getElementById('cardResidenceText').textContent = '居住地：' + current.residence + ' · 人工審閱通過';
+      document.getElementById('cardDistance').textContent = current.distance + 'm';
+      document.getElementById('cardAvatarCode').textContent = (current.gender === 1 ? 'M' : 'F') + current.age;
+      document.getElementById('cardFaceSimilarityText').textContent = '系統人臉比對相似度：' + current.faceScore + '%';
+      document.getElementById('cardGenderText').textContent = current.gender === 1 ? '男性 (1)' : '女性 (2)';
+      document.getElementById('cardAgeText').textContent = current.age + ' 歲';
+
+      const mutualHint = document.getElementById('cardMutualHint');
+      if (current.likedMe) {
+        mutualHint.textContent = '對方已喜歡你';
+        mutualHint.className = 'mutual-tag';
+      } else {
+        mutualHint.textContent = '附近在線';
+        mutualHint.className = 'mutual-tag single';
+      }
+
+      const inviteBtn = document.getElementById('btnDirectInvite');
+      const inviteLabel = document.getElementById('btnInviteCountLabel');
+      const alreadyInvited = state.invitedTargetIds.has(current.id);
+
+      if (alreadyInvited) {
+        inviteBtn.disabled = true;
+        inviteLabel.textContent = '已邀請過此會員，不可重複邀請';
+      } else if (state.hasPurchased) {
+        inviteBtn.disabled = false;
+        inviteLabel.textContent = '已購買尊榮會員 · 每位對象限邀請 1 次';
+      } else {
+        inviteBtn.disabled = false;
+        inviteLabel.textContent = '需購買 NT$ 3,000 尊榮會員';
+      }
+    }
+
+    function renderChatView() {
+      const listSub = document.getElementById('chatListSubView');
+      const roomSub = document.getElementById('chatRoomSubView');
+
+      const visibleChannels = state.channels.filter(function(ch) {
+        return !state.bannedTargetIds.has(ch.partner.id);
+      });
+
+      if (!state.activeChannelId) {
+        listSub.classList.remove('hidden');
+        roomSub.classList.add('hidden');
+        const container = document.getElementById('chatChannelsContainer');
+        container.innerHTML = '';
+
+        if (visibleChannels.length === 0) {
+          container.innerHTML = '<div class="center-notice-box" style="margin:24px 0;"><div class="serif-title" style="font-size:15px;font-weight:600;">尚無開啟的對話通道</div><div style="font-size:11.5px;color:var(--ink-secondary);">雙向右滑配對成功，或購買尊榮會員向未配對對象發送「直接邀請」後將顯示於此。</div></div>';
+          return;
+        }
+
+        visibleChannels.forEach(function(ch) {
+          const item = document.createElement('div');
+          item.className = 'channel-card';
+          let badgeText = '';
+          if (ch.type === 'mutual') {
+            badgeText = ch.remaining === null ? '配對成功 · 無限次聊天' : '配對成功 · 免費基礎剩餘 ' + ch.remaining + ' 則';
+          } else {
+            if (ch.status === 'pending') {
+              badgeText = '直接邀請 · 等待對方回應（限邀 1 次）';
+            } else if (ch.status === 'no_response') {
+              badgeText = '直接邀請 · 對方未回應（無法再次邀請）';
+            } else {
+              badgeText = '直接邀請已同意 · 無限次聊天';
+            }
+          }
+
+          const lastMsg = ch.messages.length > 0
+            ? ch.messages[ch.messages.length - 1].text
+            : (ch.status === 'no_response' ? '對方未回應，通道已鎖定' : '點擊進入專屬對話室');
+
+          item.innerHTML = '<div>' +
+            '<div class="serif-title" style="font-size:14.5px;font-weight:600;">' + ch.partner.name + '（' + (ch.partner.gender === 1 ? '男' : '女') + ' · ' + ch.partner.age + '歲）</div>' +
+            '<div style="font-size:11px;color:' + (ch.status === 'no_response' ? 'var(--danger)' : '#8C6D3F') + ';font-weight:600;margin-top:3px;">' + badgeText + '</div>' +
+            '<div style="font-size:11.5px;color:var(--ink-muted);margin-top:4px;">' + lastMsg + '</div>' +
+            '</div>' +
+            '<span class="btn-primary" style="padding:6px 12px;font-size:11px;border-radius:6px;">進入</span>';
+
+          item.addEventListener('click', function() {
+            state.activeChannelId = ch.id;
+            renderChatView();
+          });
+          container.appendChild(item);
+        });
+        return;
+      }
+
+      listSub.classList.add('hidden');
+      roomSub.classList.remove('hidden');
+
+      const channel = visibleChannels.find(function(c) { return c.id === state.activeChannelId; });
+      if (!channel) {
+        state.activeChannelId = null;
+        renderChatView();
+        return;
+      }
+
+      document.getElementById('roomPartnerTitle').textContent = channel.partner.name + '（' + (channel.partner.gender === 1 ? '男' : '女') + ' · ' + channel.partner.age + '歲）';
+      document.getElementById('roomChannelTypeBadge').textContent = channel.type === 'mutual'
+        ? '雙向右滑配對成功'
+        : '直接邀請未配對會員（同一人限邀請 1 次）';
+
+      const pendingBox = document.getElementById('roomPendingAcceptBox');
+      const msgContainer = document.getElementById('roomMessagesContainer');
+      const activeInputRow = document.getElementById('roomInputActiveRow');
+      const exhaustedPayBtn = document.getElementById('btnChannelExhaustedPay');
+      const noResponseBar = document.getElementById('roomNoResponseLockedBar');
+      const remainingText = document.getElementById('roomRemainingCounterText');
+      const remainingRow = document.getElementById('roomRemainingRow');
+      const replyTopBtn = document.getElementById('btnSimulatePartnerReplyTop');
+
+      if (channel.status === 'pending') {
+        pendingBox.classList.remove('hidden');
+        msgContainer.classList.add('hidden');
+        activeInputRow.classList.add('hidden');
+        exhaustedPayBtn.classList.add('hidden');
+        noResponseBar.classList.add('hidden');
+        replyTopBtn.classList.add('hidden');
+        remainingRow.className = 'remaining-bar';
+        remainingText.textContent = '狀態：等待對方回應（若未回應則無法再次邀請對方）';
+        return;
+      }
+
+      if (channel.status === 'no_response') {
+        pendingBox.classList.add('hidden');
+        msgContainer.classList.remove('hidden');
+        activeInputRow.classList.add('hidden');
+        exhaustedPayBtn.classList.add('hidden');
+        noResponseBar.classList.remove('hidden');
+        replyTopBtn.classList.add('hidden');
+        msgContainer.innerHTML = '<div style="text-align:center;font-size:12px;color:var(--danger);margin:36px 16px;line-height:1.6;">你已對此會員發送過唯一一次直接邀請，因對方未回應，系統已永久鎖定，無法再次邀請此會員進入聊天室。</div>';
+        remainingRow.className = 'remaining-bar exhausted';
+        remainingText.textContent = '剩餘邀請此對象次數：0（不可重複邀請）';
+        return;
+      }
+
+      pendingBox.classList.add('hidden');
+      noResponseBar.classList.add('hidden');
+      msgContainer.classList.remove('hidden');
+      replyTopBtn.classList.remove('hidden');
+
+      msgContainer.innerHTML = '';
+      if (channel.messages.length === 0) {
+        msgContainer.innerHTML = '<div style="text-align:center;font-size:12px;color:var(--ink-muted);margin:32px 0;">對話通道已開啟，請在下方撰寫訊息。</div>';
+      } else {
+        channel.messages.forEach(function(m) {
+          const row = document.createElement('div');
+          row.className = m.fromMe ? 'msg-row me' : 'msg-row partner';
+          row.innerHTML = '<div class="msg-bubble"><div class="msg-sender">' + m.sender + '</div><div>' + m.text + '</div></div>';
+          msgContainer.appendChild(row);
+        });
+        msgContainer.scrollTop = msgContainer.scrollHeight;
+      }
+
+      if (channel.remaining === null) {
+        activeInputRow.classList.remove('hidden');
+        exhaustedPayBtn.classList.add('hidden');
+        remainingRow.className = 'remaining-bar';
+        remainingText.textContent = '剩餘訊息次數：無限次（已購買尊榮會員無限暢聊）';
+      } else if (channel.remaining <= 0 || channel.status === 'exhausted') {
+        activeInputRow.classList.add('hidden');
+        exhaustedPayBtn.classList.remove('hidden');
+        remainingRow.className = 'remaining-bar exhausted';
+        remainingText.textContent = '剩餘訊息次數：0（免費基礎次數已用完，購買尊榮會員即享全站無限聊）';
+      } else {
+        activeInputRow.classList.remove('hidden');
+        exhaustedPayBtn.classList.add('hidden');
+        remainingRow.className = 'remaining-bar';
+        remainingText.textContent = '剩餘訊息次數：' + channel.remaining + '（免費會員基礎額度）';
+      }
+    }
+
+    function renderProfileView() {
+      document.getElementById('lblProfileRealName').textContent = state.realName;
+      document.getElementById('lblProfileNickname').textContent = state.nickname || '未設定';
+      document.getElementById('inputUpdateNickname').value = state.nickname;
+
+      document.getElementById('btnProfileUseRealName').className = !state.useNickname ? 'btn-small done' : 'btn-small';
+      document.getElementById('btnProfileUseNickname').className = state.useNickname ? 'btn-small done' : 'btn-small';
+
+      document.getElementById('lockedRealName').textContent = state.realName;
+      document.getElementById('lockedIdNumber').textContent = state.idNumber;
+      document.getElementById('lockedGender').textContent = state.userGender === 1 ? '男性 (第2碼=1)' : '女性 (第2碼=2)';
+      document.getElementById('lockedResidence').textContent = state.residence;
+      document.getElementById('lockedPhone').textContent = state.phoneNumber;
+
+      const repContainer = document.getElementById('reportCasesContainer');
+      repContainer.innerHTML = '';
+      if (state.reports.length === 0) {
+        repContainer.innerHTML = '<div style="font-size:11.5px;color:var(--ink-muted);">目前尚無提交任何檢舉案件（可於配對卡片右上角或聊天室右上角點擊「檢舉」提交人工審閱）。</div>';
+        return;
+      }
+
+      state.reports.forEach(function(rep) {
+        const card = document.createElement('div');
+        card.style.cssText = 'padding:10px 12px;border:1px solid var(--hairline);border-radius:8px;background:var(--bg-ivory);font-size:11.5px;display:flex;flex-direction:column;gap:6px;';
+        let statusHtml = '';
+        if (rep.status === 'pending') {
+          statusHtml = '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;padding-top:4px;border-top:1px solid var(--hairline);">' +
+            '<span style="color:#8C6D3F;font-weight:600;">狀態：等待後台人工審閱中</span>' +
+            '<div style="display:flex;gap:4px;">' +
+            '<button type="button" class="btn-danger-outline" style="padding:3px 8px;font-size:10.5px;" data-approve-report="' + rep.id + '">審閱屬實：終身停權</button>' +
+            '<button type="button" class="btn-outline" style="padding:3px 8px;font-size:10.5px;" data-dismiss-report="' + rep.id + '">駁回</button>' +
+            '</div></div>';
+        } else if (rep.status === 'banned') {
+          statusHtml = '<div style="color:var(--danger);font-weight:600;">人工審閱結果：檢舉屬實，已取消該會員資格且終身禁止再申請</div>';
+        } else {
+          statusHtml = '<div style="color:var(--ink-muted);">人工審閱結果：證據不足駁回</div>';
+        }
+
+        card.innerHTML = '<div><strong>檢舉對象：' + rep.targetName + '</strong> · 類別：' + rep.category + '</div>' +
+          '<div style="color:var(--ink-secondary);">檢舉理由：' + rep.reason + '</div>' +
+          statusHtml;
+        repContainer.appendChild(card);
+      });
+
+      repContainer.querySelectorAll('[data-approve-report]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const repId = btn.getAttribute('data-approve-report');
+          const found = state.reports.find(function(r) { return r.id === repId; });
+          if (found) {
+            found.status = 'banned';
+            state.bannedTargetIds.add(found.targetId);
+            addLog('檢舉人工審閱通過：已永久取消「' + found.targetName + '」會員資格，終身不得再申請');
+            renderAll();
+          }
+        });
+      });
+
+      repContainer.querySelectorAll('[data-dismiss-report]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const repId = btn.getAttribute('data-dismiss-report');
+          const found = state.reports.find(function(r) { return r.id === repId; });
+          if (found) {
+            found.status = 'dismissed';
+            addLog('檢舉人工審閱結果：對「' + found.targetName + '」之檢舉案予以駁回');
+            renderAll();
+          }
+        });
+      });
+    }
+
+    function renderLogsView() {
+      const container = document.getElementById('auditLogsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      if (state.logs.length === 0) {
+        container.innerHTML = '<div style="font-size:12px;color:var(--ink-muted);">尚無紀錄</div>';
+        return;
+      }
+      state.logs.forEach(function(item) {
+        const div = document.createElement('div');
+        div.className = 'log-item';
+        div.textContent = '[' + item.time + '] ' + item.text;
+        container.appendChild(div);
+      });
+    }
+
+    function openPaywall(reasonText) {
+      const titleEl = document.getElementById('paywallReasonTitle');
+      if (reasonText) {
+        titleEl.textContent = reasonText;
+      } else if (state.hasPurchased && state.rightSwipeQuota <= 0) {
+        titleEl.textContent = '配對機會已用完 · 增加更多配對機會';
+      } else {
+        titleEl.textContent = '購買尊榮會員方案';
+      }
+      document.getElementById('modalPaywall').classList.remove('hidden');
+    }
+
+    function openReportModal(targetUser) {
+      if (!targetUser) return;
+      state.reportingTarget = targetUser;
+      document.getElementById('reportTargetName').textContent = targetUser.name;
+      document.getElementById('inputReportReason').value = '';
+      document.getElementById('modalReportUser').classList.remove('hidden');
+    }
+
+    function handleLeftSwipe() {
+      const list = getFilteredCandidates();
+      if (list.length === 0) return;
+      const target = list[0];
+      state.swipedIds.add(target.id);
+      addLog('左滑略過：' + target.name + '（已永久記憶排除）');
+      renderSwipeView();
+    }
+
+    function handleRightSwipe() {
+      const list = getFilteredCandidates();
+      if (list.length === 0) return;
+      if (state.rightSwipeQuota <= 0) {
+        addLog('右滑阻斷：剩餘配對機會為 0，跳出增加配對機會提示');
+        openPaywall(state.hasPurchased ? '選擇配對機會已用完，請增加更多配對機會' : '免費配對機會已用完，請購買尊榮會員');
+        return;
+      }
+
+      const target = list[0];
+      state.rightSwipeQuota -= 1;
+      state.swipedIds.add(target.id);
+      addLog('右滑喜歡：' + target.name + '，消耗 1 次配對機會（剩餘 ' + state.rightSwipeQuota + ' 次）');
+
+      if (target.likedMe) {
+        const newChannel = {
+          id: 'ch_' + Date.now(),
+          partner: target,
+          type: 'mutual',
+          status: 'active',
+          remaining: state.hasPurchased ? null : 5,
+          messages: []
+        };
+        state.channels.unshift(newChannel);
+        state.activeChannelId = newChannel.id;
+        addLog('配對成功：與 ' + target.name + ' 雙向右滑成立，開啟聊天權限');
+        document.getElementById('modalMatchDesc').textContent = '你與 ' + target.name + ' 互相喜歡了彼此，已立即開啟專屬對話權限。';
+        document.getElementById('modalMatchSuccess').classList.remove('hidden');
+      }
+
+      renderAll();
+    }
+
+    function handleDirectInvite() {
+      const list = getFilteredCandidates();
+      if (list.length === 0) return;
+      const target = list[0];
+
+      if (!state.hasPurchased) {
+        addLog('直接邀請阻斷：免費會員無法主動邀請未配對會員，跳出購買尊榮會員方案');
+        openPaywall('購買 NT$ 3,000 尊榮會員，即可直接邀請未配對會員並享全站無限聊');
+        return;
+      }
+
+      if (state.invitedTargetIds.has(target.id)) {
+        addLog('邀請阻斷：同一對象 (' + target.name + ') 僅限邀請一次，不可重複發送');
+        return;
+      }
+
+      state.invitedTargetIds.add(target.id);
+      state.swipedIds.add(target.id);
+
+      const inviteChannel = {
+        id: 'inv_' + Date.now(),
+        partner: target,
+        type: 'invite',
+        status: 'pending',
+        remaining: null,
+        messages: []
+      };
+      state.channels.unshift(inviteChannel);
+      state.activeChannelId = inviteChannel.id;
+      state.activeTab = 'chat';
+      addLog('發送直接邀請：已對未配對會員 ' + target.name + ' 發出唯一一次聊天邀請');
+      renderAll();
+    }
+
+    function sendChatMessage(isFromMe, customText) {
+      const channel = state.channels.find(function(c) { return c.id === state.activeChannelId; });
+      if (!channel || channel.status !== 'active') return;
+
+      const inputEl = document.getElementById('inputChatMessage');
+      const text = isFromMe ? inputEl.value.trim() : customText;
+      if (!text) return;
+
+      if (channel.remaining !== null) {
+        if (channel.remaining <= 0) {
+          channel.status = 'exhausted';
+          openPaywall('免費基礎訊息已用完，購買一次 NT$ 3,000 尊榮會員即享全站無限聊天');
+          renderChatView();
+          return;
+        }
+        channel.remaining -= 1;
+        if (channel.remaining === 0) {
+          channel.status = 'exhausted';
+        }
+      }
+
+      channel.messages.push({
+        sender: isFromMe ? getCurrentDisplayName() : channel.partner.name,
+        fromMe: isFromMe,
+        text: text
+      });
+
+      if (isFromMe) inputEl.value = '';
+      const remainLabel = channel.remaining === null ? '無限次' : channel.remaining;
+      addLog('傳送訊息 [' + channel.partner.name + ']：' + (isFromMe ? '我方發送' : '對方回覆') + '（剩餘次數：' + remainLabel + '）');
+      renderChatView();
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('gpsBadge').addEventListener('click', function() {
+        state.gpsEnabled = !state.gpsEnabled;
+        addLog(state.gpsEnabled ? '已開啟 GPS 即時定位' : '已關閉 GPS 即時定位');
+        renderAll();
+      });
+
+      // 手機號碼簡訊 OTP 驗證
+      document.getElementById('btnSendOtp').addEventListener('click', function() {
+        const phoneVal = document.getElementById('inputPhone').value.trim();
+        const errBox = document.getElementById('kycErrorBox');
+        errBox.classList.add('hidden');
+        if (!/^09\d{8}$/.test(phoneVal)) {
+          errBox.textContent = '手機號碼格式錯誤：請輸入有效的台灣 10 碼手機號碼（09 開頭），否則無法發送簡訊驗證碼。';
+          errBox.classList.remove('hidden');
+          addLog('簡訊發送失敗：手機號碼格式不符');
+          return;
+        }
+        state.phoneNumber = phoneVal;
+        document.getElementById('otpInputRow').classList.remove('hidden');
+        document.getElementById('inputOtpCode').value = '888888';
+        addLog('已發送 6 位數簡訊驗證碼至 ' + phoneVal);
+      });
+
+      document.getElementById('btnVerifyOtp').addEventListener('click', function() {
+        const code = document.getElementById('inputOtpCode').value.trim();
+        const errBox = document.getElementById('kycErrorBox');
+        errBox.classList.add('hidden');
+        if (code.length !== 6) {
+          errBox.textContent = '驗證碼錯誤：請輸入收到的 6 位數手機驗證碼。';
+          errBox.classList.remove('hidden');
+          return;
+        }
+        state.phoneVerified = true;
+        document.getElementById('otpInputRow').classList.add('hidden');
+        addLog('手機號碼驗證通過：' + state.phoneNumber);
+        renderKYCView();
+      });
+
+      document.getElementById('btnCaptureFront').addEventListener('click', function() {
+        state.capturedFront = !state.capturedFront;
+        addLog('即時相機：已拍攝身分證正面（含大頭照）');
+        renderKYCView();
+      });
+      document.getElementById('btnCaptureBack').addEventListener('click', function() {
+        state.capturedBack = !state.capturedBack;
+        addLog('即時相機：已拍攝身分證反面');
+        renderKYCView();
+      });
+      document.getElementById('btnCaptureSelfie').addEventListener('click', function() {
+        state.capturedSelfie = !state.capturedSelfie;
+        addLog('即時相機：已完成本人即時自拍');
+        renderKYCView();
+      });
+      document.getElementById('btnQuickFillKYC').addEventListener('click', function() {
+        state.phoneVerified = true;
+        state.capturedFront = true;
+        state.capturedBack = true;
+        state.capturedSelfie = true;
+        addLog('已完成手機簡訊驗證與三張證件自拍即時拍攝');
+        renderKYCView();
+      });
+
+      document.getElementById('btnModeRealName').addEventListener('click', function() {
+        state.useNickname = false;
+        renderKYCView();
+      });
+      document.getElementById('btnModeNickname').addEventListener('click', function() {
+        state.useNickname = true;
+        renderKYCView();
+      });
+
+      document.getElementById('inputIdNumber').addEventListener('input', parseOcrPreview);
+      document.getElementById('inputBirthDate').addEventListener('change', parseOcrPreview);
+      document.getElementById('inputFaceSimilarity').addEventListener('input', function(e) {
+        document.getElementById('faceScoreLabel').textContent = e.target.value + '%';
+      });
+
+      document.getElementById('btnSubmitKYC').addEventListener('click', function() {
+        const errBox = document.getElementById('kycErrorBox');
+        errBox.classList.add('hidden');
+
+        if (!state.phoneVerified) {
+          errBox.textContent = '註冊阻斷：手機號碼必須先通過簡訊驗證碼核驗（或點「一鍵完成拍攝與簡訊驗證」）。';
+          errBox.classList.remove('hidden');
+          addLog('驗證失敗：手機號碼尚未完成驗證');
+          return;
+        }
+
+        if (!state.capturedFront || !state.capturedBack || !state.capturedSelfie) {
+          errBox.textContent = '尚未完成拍攝：請完成「身分證正面、反面與本人即時自拍」拍攝。';
+          errBox.classList.remove('hidden');
+          addLog('驗證失敗：缺少必要即時拍攝影像');
+          return;
+        }
+
+        const parsed = parseOcrPreview();
+        if (parsed.calcAge < 18) {
+          errBox.textContent = '年齡限制阻斷：本軟體嚴格限制年滿 18 歲以上方可使用（目前計算年齡：' + parsed.calcAge + ' 歲）。';
+          errBox.classList.remove('hidden');
+          addLog('註冊拒絕：未滿 18 歲禁止使用');
+          return;
+        }
+
+        if (parsed.idInput.length !== 10 || (parsed.secondChar !== '1' && parsed.secondChar !== '2')) {
+          errBox.textContent = 'OCR 檢核未通過：身分證字號格式錯誤，第 2 碼須為 1（男）或 2（女）。';
+          errBox.classList.remove('hidden');
+          addLog('驗證失敗：OCR 身分證字號第二碼檢核未通過');
+          return;
+        }
+
+        const faceScore = parseFloat(document.getElementById('inputFaceSimilarity').value);
+        if (faceScore < 80) {
+          errBox.textContent = '人臉比對未通過：身分證大頭照與自拍相似度僅 ' + faceScore + '%（低於系統門檻 80%）。';
+          errBox.classList.remove('hidden');
+          addLog('驗證失敗：人臉相似度 ' + faceScore + '% 低於 80% 門檻');
+          return;
+        }
+
+        state.realName = document.getElementById('inputRealName').value.trim() || '林承翰';
+        state.nickname = document.getElementById('inputNickname').value.trim() || 'Julian';
+        state.idNumber = parsed.idInput;
+        state.residence = document.getElementById('inputResidence').value.trim() || '新北市新店區';
+        state.userGender = parsed.secondChar === '1' ? 1 : 2;
+        state.userAge = parsed.calcAge;
+        state.kycStage = 'pending_review';
+        addLog('已送出註冊申請：等待後台管理員進行人工審閱');
+        renderAll();
+      });
+
+      // 後台人工審閱通過或終身封鎖
+      document.getElementById('btnAdminApproveKYC').addEventListener('click', function() {
+        state.kycStage = 'approved';
+        addLog('後台人工審閱通過：實名資料（身分證字號、性別、居住地）已鎖定，核發初始免費 10 次配對機會');
+        renderAll();
+      });
+
+      document.getElementById('btnAdminRejectBanKYC').addEventListener('click', function() {
+        state.kycStage = 'banned';
+        addLog('後台人工審閱判定不合格：已取消申請，該身分證字號與手機號碼終身不得再申請');
+        renderAll();
+      });
+
+      // 導覽列切換
+      document.getElementById('navTabSwipe').addEventListener('click', function() {
+        state.activeTab = 'swipe';
+        renderAll();
+      });
+      document.getElementById('navTabChat').addEventListener('click', function() {
+        state.activeTab = 'chat';
+        renderAll();
+      });
+      document.getElementById('navTabProfile').addEventListener('click', function() {
+        state.activeTab = 'profile';
+        renderAll();
+      });
+      document.getElementById('navTabLogs').addEventListener('click', function() {
+        state.activeTab = 'logs';
+        renderAll();
+      });
+
+      // 個人頁切換本名 / 外號與申請變更
+      document.getElementById('btnProfileUseRealName').addEventListener('click', function() {
+        state.useNickname = false;
+        addLog('顯示名稱切換為本名：' + state.realName);
+        renderAll();
+      });
+      document.getElementById('btnProfileUseNickname').addEventListener('click', function() {
+        state.useNickname = true;
+        addLog('顯示名稱切換為外號：' + state.nickname);
+        renderAll();
+      });
+      document.getElementById('btnSaveNickname').addEventListener('click', function() {
+        const val = document.getElementById('inputUpdateNickname').value.trim();
+        if (!val) return;
+        state.nickname = val;
+        state.useNickname = true;
+        const banner = document.getElementById('profileNoticeBanner');
+        banner.textContent = '已更新外號為「' + val + '」，並切換為外號顯示。';
+        banner.classList.remove('hidden');
+        addLog('使用者更新外號為：' + val);
+        renderAll();
+      });
+
+      document.getElementById('btnOpenAdminChangeModal').addEventListener('click', function() {
+        document.getElementById('inputRequestNewName').value = state.realName;
+        document.getElementById('inputRequestNewResidence').value = state.residence;
+        document.getElementById('modalAdminChange').classList.remove('hidden');
+      });
+      document.getElementById('btnCloseAdminChangeModal').addEventListener('click', function() {
+        document.getElementById('modalAdminChange').classList.add('hidden');
+      });
+      document.getElementById('btnSubmitAdminChange').addEventListener('click', function() {
+        const newName = document.getElementById('inputRequestNewName').value.trim();
+        const newRes = document.getElementById('inputRequestNewResidence').value.trim();
+        if (newName) state.realName = newName;
+        if (newRes) state.residence = newRes;
+        document.getElementById('modalAdminChange').classList.add('hidden');
+        const banner = document.getElementById('profileNoticeBanner');
+        banner.textContent = '管理者已人工核准你的變更申請：本名更新為「' + state.realName + '」、居住地更新為「' + state.residence + '」（身分證字號與性別維持永久鎖定）。';
+        banner.classList.remove('hidden');
+        addLog('管理者核准變更申請：本名=' + state.realName + ', 居住地=' + state.residence);
+        renderAll();
+      });
+
+      // 檢舉會員與人工審閱
+      document.getElementById('btnReportCandidate').addEventListener('click', function() {
+        const list = getFilteredCandidates();
+        if (list.length > 0) openReportModal(list[0]);
+      });
+      document.getElementById('btnReportInChat').addEventListener('click', function() {
+        const ch = state.channels.find(function(c) { return c.id === state.activeChannelId; });
+        if (ch) openReportModal(ch.partner);
+      });
+      document.getElementById('btnCloseReportModal').addEventListener('click', function() {
+        document.getElementById('modalReportUser').classList.add('hidden');
+      });
+      document.getElementById('btnSubmitReport').addEventListener('click', function() {
+        if (!state.reportingTarget) return;
+        const category = document.getElementById('selectReportCategory').value;
+        const reason = document.getElementById('inputReportReason').value.trim();
+        if (!reason) {
+          document.getElementById('inputReportReason').placeholder = '請務必填寫具體檢舉理由以利人工審閱！';
+          return;
+        }
+        state.reports.unshift({
+          id: 'rep_' + Date.now(),
+          targetId: state.reportingTarget.id,
+          targetName: state.reportingTarget.name,
+          category: category,
+          reason: reason,
+          status: 'pending'
+        });
+        state.swipedIds.add(state.reportingTarget.id);
+        document.getElementById('modalReportUser').classList.add('hidden');
+        addLog('已提交檢舉案：對象「' + state.reportingTarget.name + '」送交後台人工審閱（可至「個人與審核」分頁查看審閱進度）');
+        state.activeTab = 'profile';
+        renderAll();
+      });
+
+      document.getElementById('prefBtnMale').addEventListener('click', function() {
+        state.targetPref = 1;
+        addLog('尋找對象偏好：男性');
+        renderSwipeView();
+      });
+      document.getElementById('prefBtnFemale').addEventListener('click', function() {
+        state.targetPref = 2;
+        addLog('尋找對象偏好：女性');
+        renderSwipeView();
+      });
+      document.getElementById('prefBtnAll').addEventListener('click', function() {
+        state.targetPref = 3;
+        addLog('尋找對象偏好：皆可');
+        renderSwipeView();
+      });
+
+      document.getElementById('btnEnableGpsInline').addEventListener('click', function() {
+        state.gpsEnabled = true;
+        addLog('已開啟 GPS 即時定位');
+        renderAll();
+      });
+
+      document.getElementById('btnSwipeLeft').addEventListener('click', handleLeftSwipe);
+      document.getElementById('btnSwipeRight').addEventListener('click', handleRightSwipe);
+      document.getElementById('btnDirectInvite').addEventListener('click', handleDirectInvite);
+
+      const swipeCard = document.getElementById('swipeCard');
+      let startX = 0;
+      let currentX = 0;
+      let isDragging = false;
+
+      function onDragStart(clientX) {
+        startX = clientX;
+        currentX = clientX;
+        isDragging = true;
+      }
+      function onDragMove(clientX) {
+        if (!isDragging) return;
+        currentX = clientX;
+        const deltaX = currentX - startX;
+        swipeCard.style.transform = 'translateX(' + deltaX + 'px) rotate(' + (deltaX * 0.025) + 'deg)';
+      }
+      function onDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        const deltaX = currentX - startX;
+        swipeCard.style.transform = '';
+        if (deltaX > 70) {
+          handleRightSwipe();
+        } else if (deltaX < -70) {
+          handleLeftSwipe();
+        }
+      }
+
+      swipeCard.addEventListener('touchstart', function(e) { onDragStart(e.touches[0].clientX); }, { passive: true });
+      swipeCard.addEventListener('touchmove', function(e) { onDragMove(e.touches[0].clientX); }, { passive: true });
+      swipeCard.addEventListener('touchend', onDragEnd);
+      swipeCard.addEventListener('mousedown', function(e) { onDragStart(e.clientX); });
+      window.addEventListener('mousemove', function(e) { onDragMove(e.clientX); });
+      window.addEventListener('mouseup', onDragEnd);
+
+      document.getElementById('btnMatchKeepSwiping').addEventListener('click', function() {
+        document.getElementById('modalMatchSuccess').classList.add('hidden');
+      });
+      document.getElementById('btnMatchOpenChat').addEventListener('click', function() {
+        document.getElementById('modalMatchSuccess').classList.add('hidden');
+        state.activeTab = 'chat';
+        renderAll();
+      });
+
+      document.getElementById('btnBackToChatList').addEventListener('click', function() {
+        state.activeChannelId = null;
+        renderChatView();
+      });
+      document.getElementById('btnSimulatePartnerAccept').addEventListener('click', function() {
+        const channel = state.channels.find(function(c) { return c.id === state.activeChannelId; });
+        if (!channel) return;
+        channel.status = 'active';
+        channel.remaining = null;
+        addLog('直接邀請已同意：' + channel.partner.name + ' 同意開啟對話（尊榮會員享無限次聊天）');
+        renderChatView();
+      });
+      document.getElementById('btnSimulateNoResponse').addEventListener('click', function() {
+        const channel = state.channels.find(function(c) { return c.id === state.activeChannelId; });
+        if (!channel) return;
+        channel.status = 'no_response';
+        addLog('對方未回應：' + channel.partner.name + ' 未回應直接邀請，系統已永久鎖定，無法再次邀請此會員');
+        renderChatView();
+      });
+      document.getElementById('btnSendChatMessage').addEventListener('click', function() {
+        sendChatMessage(true);
+      });
+      document.getElementById('inputChatMessage').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') sendChatMessage(true);
+      });
+      document.getElementById('btnSimulatePartnerReplyTop').addEventListener('click', function() {
+        sendChatMessage(false, '晚安，收到你的訊息了，很榮幸認識你。');
+      });
+      document.getElementById('btnChannelExhaustedPay').addEventListener('click', function() {
+        openPaywall('購買一次 NT$ 3,000 尊榮會員，即可與所有會員無限制聊天');
+      });
+
+      document.getElementById('openPaywallTopBtn').addEventListener('click', function() {
+        if (state.hasPurchased && state.rightSwipeQuota > 0) return;
+        openPaywall(state.hasPurchased ? '選擇配對機會已用完 · 增加更多配對機會' : '購買尊榮會員方案（NT$ 3,000）');
+      });
+      document.getElementById('btnClosePaywall').addEventListener('click', function() {
+        document.getElementById('modalPaywall').classList.add('hidden');
+      });
+      document.getElementById('btnConfirmPurchase').addEventListener('click', function() {
+        state.rightSwipeQuota += 30;
+        state.hasPurchased = true;
+
+        state.channels.forEach(function(ch) {
+          if (ch.status !== 'no_response') {
+            ch.remaining = null;
+            if (ch.status === 'exhausted') ch.status = 'active';
+          }
+        });
+
+        document.getElementById('modalPaywall').classList.add('hidden');
+        addLog('購買成功：已購買尊榮會員（配對機會 +30，現有 ' + state.rightSwipeQuota + ' 次，享全站無限聊天）');
+        renderAll();
+      });
+
+      document.getElementById('btnAddMoreNearbyInline').addEventListener('click', function() {
+        for (let i = 0; i < 4; i++) {
+          const seq = state.nextCandidateSeq++;
+          state.candidates.push({
+            id: 'u' + seq,
+            name: 'Member #' + seq,
+            nameMode: seq % 2 === 0 ? '本名顯示' : '外號顯示',
+            residence: '台北市信義區',
+            gender: seq % 2 === 0 ? 1 : 2,
+            age: 23 + (seq % 9),
+            distance: 140 + (i * 150),
+            faceScore: 92.4,
+            likedMe: i % 2 === 0
+          });
+        }
+        addLog('已重新整理附近在線驗證會員名單');
+        renderAll();
+      });
+
+      renderAll();
+    });
+  </script>
+</body>
+</html>
